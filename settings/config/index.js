@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-// const routes = require('./../routes');
+const routes = require('../../app/routes');
 
 /**
  * Instantiate express
@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 /**
  * Use express router on our routes
  */
-// routes(router);
+routes(router);
 
 // Register routes
 app.use('/api', router);
