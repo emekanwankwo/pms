@@ -1,6 +1,6 @@
 require('dotenv').config();
-require('./app/connect');
-const app = require('./app/config');
+require('./settings/connect');
+const app = require('./settings/config');
 
 // Configure port
 const port = process.env.PORT || 8080;
