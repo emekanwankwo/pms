@@ -14,7 +14,7 @@ This can be easily installed locally by following the following steps:
 - Add `.env` file from the `.env.sample` specifying your database URL in it
 - Run `export MONGODB_URI=your-database-url` to make it temporarily available on the terminal
 - Run `mongod` (To start mongodb service, mongodb has to be installed locally, this is not needed if a cloud-based db is used)
-- Run `npm start` to start up the application which can be accessed on the specified port
+- Run `npm start` to start up the application which can be accessed on the specified port (Run `npm test` to run the tests).
 
 ### Requirements
 To be able to use the application locally, the following are required:
@@ -29,7 +29,7 @@ To be able to use the application locally, the following are required:
 <th> Endpoint </th> <th> Method </th> <th> Action </th> <th> Payload </th>
 </tr>
 <tr>
-<td> /createLocation </td> <td> POST </td> <td> create a new location </td> <td> male_residents(int), female_residents(int), locations(Array of objects)</td>
+<td> /createLocation </td> <td> POST </td> <td> create a new location </td> <td> male_residents(int), female_residents(int), locations(Array of location objects)</td>
 </tr>
 <tr>
 <td> /getLocation/:id </td> <td> GET </td> <td> Return a given location with :id</td> <td> none </td>
