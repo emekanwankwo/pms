@@ -32,7 +32,17 @@ describe('Location Service', () => {
   describe('Create Locations', () => {
     it('Should create a new location', (done) => {
       request.post('/api/createLocation').send(fakeLocation)
-        .expect(201).then(done());
+        .expect(201).then(res => {
+          expect(res.body.total_residents)
+            .to.equal(fakeLocation.male_residents + fakeLocation.female_residents)
+            done();
+        });
+    });
+
+    it('Should not create a new location if data type is not an integer', (done) => {
+      fakeLocation.male_residents = 5.5;
+      request.post('/api/createLocation').send(fakeLocation)
+        .expect(400).then(done());
     });
 
     it('Should not create a new location if data is incomplete', (done) => {
@@ -89,17 +99,25 @@ describe('Location Service', () => {
 
   describe('Update and Delete locations', () => {
     it('Should update a location', (done) => {
-      const fakeNumber = faker.fakeRandomNumber();
-      const updateData = {male_residents: fakeNumber};
+      const updateData = {male_residents: 200, female_residents: 100};
       request.put(`/api/updateLocation/${locationId}`).send(updateData)
         .expect(200).then((res) => {
-          expect(res.body.male_residents).to.equal(fakeNumber);
+          expect(res.body.male_residents).to.equal(200);
+          done();
+        });
+    });
+
+    it('Should update a location', (done) => {
+      const updateData = {male_residents: 200};
+      request.put(`/api/updateLocation/${locationId}`).send(updateData)
+        .expect(400).then((res) => {
+          expect(res.body.message).to.equal('male_residents and female_residents data required!');
           done();
         });
     });
 
     it('Should fail when user tries to update a non-existent location', (done) => {
-      request.put('/api/updateLocation/123').send({male_residents: 1})
+      request.put('/api/updateLocation/123').send({male_residents: 200, female_residents: 100})
         .expect(404).then((res) => {
           expect(res.body.message).to.equal('Location not found!');
           done();

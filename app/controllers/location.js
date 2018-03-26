@@ -57,6 +57,10 @@ const getLocation = (req, res) => {
 const updateLocation = (req, res) => {
     const locationId = req.params.id;
     const updateData = req.body;
+    // Require male and female residents for update
+    if (!req.body.male_residents || !req.body.female_residents) {
+        return res.status(400).send({ message: 'male_residents and female_residents data required!'});
+    }
     locationService.updateLocation(locationId, updateData, (err, location) => {
     if (!err) {
       return res.status(200).send(location);
