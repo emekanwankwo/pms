@@ -61,7 +61,7 @@ const updateLocation = (req, res) => {
     if (!err) {
       return res.status(200).send(location);
     } else {
-      return res.status(400).send({ message: 'Location not updated!', error: err});
+      return res.status(404).send({ message: 'Location not found!', error: err});
     }
   });
 };
@@ -77,7 +77,7 @@ const deleteLocation = (req, res) => {
     if (!err) {
       return res.status(200).send({message: 'Location removed!'})
     } else {
-      return res.status(404).send({ message: 'Location not removed!', error: err});
+      return res.status(404).send({ message: 'Location not found!', error: err});
     }
   });
 };

@@ -35,6 +35,12 @@ describe('Location Service', () => {
         .expect(201).then(done());
     });
 
+    it('Should not create a new location if data is not complete', (done) => {
+      delete fakeLocation.male_residents;
+      request.post('/api/createLocation').send(fakeLocation)
+        .expect(400).then(done());
+    });
+
     it('Should not create a new location if data is not specified', (done) => {
       request.post('/api/createLocation').send({})
         .expect(400).then(done());
@@ -85,12 +91,28 @@ describe('Location Service', () => {
         });
     });
 
+    it('Should fail when user tries to update a non-existent location', (done) => {
+      request.put('/api/updateLocation/123').send({male_residents: 1})
+        .expect(404).then((res) => {
+          expect(res.body.message).to.equal('Location not found!');
+          done();
+        });
+    });
+
     it('Should delete a location', (done) => {
         request.delete(`/api/deleteLocation/${locationId}`)
           .expect(200).then((res) => {
               expect(res.body.message).to.equal('Location removed!');
               done();
           });
+    });
+
+    it('Should fail when user tries to delete a non-existent location', (done) => {
+      request.delete('/api/deleteLocation/123')
+        .expect(404).then((res) => {
+          expect(res.body.message).to.equal('Location not found!');
+          done();
+        });
     });
   });
 });
