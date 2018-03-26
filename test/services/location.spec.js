@@ -35,8 +35,15 @@ describe('Location Service', () => {
         .expect(201).then(done());
     });
 
-    it('Should not create a new location if data is not complete', (done) => {
+    it('Should not create a new location if data is incomplete', (done) => {
       delete fakeLocation.male_residents;
+      request.post('/api/createLocation').send(fakeLocation)
+        .expect(400).then(done());
+    });
+
+    it('Should not create a new location if nested location data is incomplete', (done) => {
+      delete fakeNestedLocation1.male_residents;
+      fakeLocation.locations.push(fakeNestedLocation1);
       request.post('/api/createLocation').send(fakeLocation)
         .expect(400).then(done());
     });
