@@ -10,7 +10,10 @@ class LocationService {
    */
 
   createLocation(data, done) {
-    let newLocation = new LocationData(data);
+    let newLocation;
+    let totalResidents = data.male_residents + data.female_residents;
+    data.total_residents = totalResidents;
+    newLocation = new LocationData(data);
     return newLocation.save((err, location) => {
         if (err) {
             done(err);
@@ -56,6 +59,8 @@ class LocationService {
    * @param done callback
    */
   updateLocation(locationId, updateData, done) {
+    let totalResidents = updateData.male_residents + updateData.female_residents;
+    updateData.total_residents = totalResidents;
     return LocationData.findOneAndUpdate({_id: locationId}, updateData, {new: true},
       (err, location) => {
       if (err) {
