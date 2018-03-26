@@ -1,7 +1,8 @@
 const expect = require('chai').expect,
   faker = require('../helper'),
   server = require('../../server'),
-  request = require('supertest')(server);
+  request = require('supertest')(server),
+  db_connection = require('../../settings/connect');
 
 let fakeLocation,
   fakeNestedLocation1,
@@ -10,6 +11,12 @@ let fakeLocation,
   fake_location;
 
 describe('Location Service', () => {
+  after((done) => {
+    db_connection.dropDatabase(() => {
+      db_connection.close();
+      done();
+    });
+  })
   beforeEach((done) => {
     fakeLocation = faker.fakeLocation();
     fakeNestedLocation1 = faker.fakeNestedLocation1();
