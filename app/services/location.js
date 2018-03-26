@@ -56,7 +56,7 @@ class LocationService {
    * @param done callback
    */
   updateLocation(locationId, updateData, done) {
-    return LocationData.findOneAndUpdate({_id: locationId}, updateData,
+    return LocationData.findOneAndUpdate({_id: locationId}, updateData, {new: true},
       (err, location) => {
       if (err) {
         done(err);

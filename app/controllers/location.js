@@ -10,7 +10,7 @@ const createLocation = (req, res) => {
     locationService.createLocation(req.body, (err, location) => {
     if (!err) {
       return res.status(201)
-        .send({ location });
+        .send(location);
     } else {
       return res.status(400)
         .send({ message: 'Could not create new location', error: err});
